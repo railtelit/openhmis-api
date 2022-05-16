@@ -1,0 +1,38 @@
+{
+  "root": "libs/dhp-service",
+  "sourceRoot": "libs/dhp-service/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/dhp-service/**/*.ts"]
+      }
+    },
+      "migrationshow":{
+      "executor":"@nrwl/workspace:run-commands",
+      "options": {
+        "command": "ts-node -P tsconfig.typeorm.json node_modules/typeorm/cli migration:show "
+      } 
+    },
+    "migrationgenerate":{
+      "executor":"@nrwl/workspace:run-commands",
+      "options": {
+        "command": "ts-node -P tsconfig.typeorm.json node_modules/typeorm/cli migration:generate -n uhi "
+      } 
+    },
+    "migrationrevert":{
+      "executor":"@nrwl/workspace:run-commands",
+      "options": {
+        "command": "ts-node -P tsconfig.typeorm.json node_modules/typeorm/cli migration:revert "
+      } 
+    },
+    "migrationrun":{
+      "executor":"@nrwl/workspace:run-commands",
+      "options": {
+        "command": "ts-node -P tsconfig.typeorm.json node_modules/typeorm/cli migration:run "
+      } 
+    }
+  },
+  "tags": []
+}

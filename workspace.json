@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "dhp-api": "apps/dhp-api"
+    "dhp-api": "apps/dhp-api",
+    "dhp-service": "libs/dhp-service"
   }
 }
