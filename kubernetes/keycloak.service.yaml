@@ -37,7 +37,7 @@ spec:
                   name: keycloaksecret
         image: quay.io/keycloak/keycloak:19.0.2
         # command: ["start"]
-        args: ["start --hostname-name=false --http-enabled=true --hostname-strict-https=false --optmized --db=postgres --db-url-host=keycloakpg-service --db-username=$(KEYCLOAK_POSTGRES_USER) --db-password=$(KEYCLOAK_POSTGRES_PASSWORD)"]
+        args: ["start --hostname-strict=false --http-enabled=true --hostname-strict-https=false --optmized --db=postgres --db-url-host=keycloakpg-service --db-username=$(KEYCLOAK_POSTGRES_USER) --db-password=$(KEYCLOAK_POSTGRES_PASSWORD)"]
         # args: [ "start-dev", "--db=postgres","--hostname-strict-https=false ","--hostname-strict=false","--http-enabled=true","--optimized","--db-url-host=keycloakpg-service","--db-username=$(KEYCLOAK_POSTGRES_USER)","--db-password=$(KEYCLOAK_POSTGRES_PASSWORD)"]
         resources:
           limits:
