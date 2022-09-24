@@ -17,6 +17,15 @@ spec:
       containers:
       - name: keycloakpg
         image: postgres
+        env:
+          - name: POSTGRES_PASSWORD
+            value: postgres
+          - name: POSTGRES_USER
+            value: keycloak
+          - name: POSTGRES_PASSWORD
+            value: keycloak
+          - name: POSTGRES_DB
+            value: keycloak
         ports:
         - containerPort: 5432
           name: backend
