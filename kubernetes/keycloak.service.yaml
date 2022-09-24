@@ -19,13 +19,13 @@ spec:
             value: postgres
           - name: KC_PROXY
             value: edge
-          - name: KC_HOSTNAME_X
-            value: auth.openhmis.erpapps.in
+          - name: KC_HOSTNAME_STRICT
+            value: "false"
           - name: KC_HOSTNAME_ADMIN_X
             value: auth.openhmis.erpapps.in
           - name: KC_HOSTNAME_URL
             value: https://auth.openhmis.erpapps.in
-          - name: KC_ADMIN_URL_X
+          - name: KC_ADMIN_URL
             value: https://auth.openhmis.erpapps.in
           - name: KC_DB_URL_HOST
             value: keycloakpg-service
