@@ -11,3 +11,17 @@ spec:
   persistentVolumeReclaimPolicy: Recycle
   hostPath:
     path: /mnt/kubernetes/pv/mongo/
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: keycloakpg-pv
+spec:  
+  capacity:
+    storage: 2Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  hostPath:
+    path: /mnt/kubernetes/pv/keycloakpg/
