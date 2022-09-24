@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: keycloakpg
+  namespace: openhmis
+spec:
+  selector:
+    matchLabels:
+      app: keycloakpg
+  serviceName: keycloakpg
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: keycloakpg
+    spec:
+      containers:
+      - name: keycloakpg
+        image: postgres
+        ports:
+        - containerPort: 5432
+          name: backend
+        volumeMounts:
+        - name: keycloakpg-pvc
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: keycloakpg-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      volumeName: keycloakpg-pv
+      resources:
+        requests:
+          storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloakpg-service
+  namespace: openhmis
+spec:
+  selector:
+    app: keycloakpg
+  ports:
+  - port: 5432
+    targetPort: 5432
