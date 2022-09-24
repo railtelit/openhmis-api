@@ -18,6 +18,7 @@ export class PatientService {
                  if(first){
                     return first; 
                  }
+                 console.log(`Creat//`,newPatient)
                  const createOne=new this.Patient(newPatient)
                  return  createOne.save();
             // 

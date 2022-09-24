@@ -21,6 +21,7 @@ export class PatientAddressSchemaClass{
                 pincode:string;
 }
 const IdentifierType={type:String,value:String}
+const ISchema = new Schema({type:String,value:String})
 @NestSchema({})
 export class PatientSchemaClass{
         @Prop()
@@ -36,8 +37,8 @@ export class PatientSchemaClass{
         @Prop(raw({line:String,district:String,state:String,pincode:String}))
         address:PatientAddressSchemaClass
 
-         @Prop({type:[IdentifierType]})
-         identifiers:IdentifierSchemaClass[]
+         @Prop([ISchema])
+         identifiers:{type:string,value:string}[]
 }
 
 
