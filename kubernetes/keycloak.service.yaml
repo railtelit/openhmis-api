@@ -23,12 +23,12 @@ spec:
             value: "false"
           - name: KC_HOSTNAME_X
             value: auth.openhmis.erpapps.in
-          - name: KC_HOSTNAME_ADMIN
-            value: auth.openhmis.erpapps.in
+          - name: KC_HOSTNAME_ADMIN_URL
+            value: https://auth.openhmis.erpapps.in
           - name: KC_HOSTNAME_URL
-            value: http://auth.openhmis.erpapps.in
+            value: https://auth.openhmis.erpapps.in
           - name: KC_ADMIN_URL
-            value: http://auth.openhmis.erpapps.in/auth
+            value: https://auth.openhmis.erpapps.in/auth
           - name: KC_DB_URL_HOST
             value: keycloakpg-service
           - name: KC_DB_URL_DATABASE
