@@ -2,6 +2,10 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "admin-api": "apps/admin-api"
+    "admin-api": "apps/admin-api",
+    "config": "libs/config",
+    "interfaces": "libs/interfaces",
+    "microservice-app-store": "apps/microservice/app-store",
+    "microservice-patient-store": "apps/microservice/patient-store"
   }
 }

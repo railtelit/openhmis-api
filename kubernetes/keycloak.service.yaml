@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: openhmis
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        env:
+          - name: KEYCLOAK_ADMINß
+            valueFrom:
+              secretKeyRef:
+                key: KEYCLOAK_ADMIN
+                name: keycloaksecret
+          - name: KEYCLOAK_ADMIN_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  key: KEYCLOAK_ADMIN_PASSWORD
+                  name: keycloaksecret
+        image: quay.io/keycloak/keycloak:19.0.2
+        command:
+          - "start-dev --db=postgres --db-url-host=keycloak_pg --db-username=keycloak --db-password=keycloak"
+        resources:
+          limits:
+            memory: "528Mi"
+            cpu: "900m"
+        ports:
+        - containerPort: 8080

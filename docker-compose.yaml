@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  patient-store:
+    build:
+      context: .
+      dockerfile: ./apps/microservice/patient-store/Dockerfile
+      args:
+        - appname=patient-store
+    environment:
+      - MONGODB_HOST=192.168.1.26
+      - PORT=3600
+    ports:
+      - 3600:3600
+    image: railtelhrit.jfrog.io/openhmis-docker/patient-store:latest
+    

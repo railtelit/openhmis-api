@@ -1,0 +1,61 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/microservice/patient-store/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/microservice/patient-store",
+        "main": "apps/microservice/patient-store/src/main.ts",
+        "tsConfig": "apps/microservice/patient-store/tsconfig.app.json",
+        "assets": ["apps/microservice/patient-store/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "target": "node",
+          "compiler": "tsc",
+          "fileReplacements": [
+            {
+              "replace": "apps/microservice/patient-store/src/environments/environment.ts",
+              "with": "apps/microservice/patient-store/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "options": {
+        "buildTarget": "microservice-patient-store:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "microservice-patient-store:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/microservice/patient-store/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/microservice/patient-store"],
+      "options": {
+        "jestConfig": "apps/microservice/patient-store/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
