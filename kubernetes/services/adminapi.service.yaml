@@ -35,7 +35,7 @@ spec:
             - name: "NDHM_CLIENT_PORT"
               value: "3000"
             - name: "KEYCLOAK_URL"
-              value: "http://auth.openhmis.erpapps.in"
+              value: "https://auth.openhmis.erpapps.in"
             - name: "ADMINAPI_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
