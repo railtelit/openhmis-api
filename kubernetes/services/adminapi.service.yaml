@@ -36,6 +36,8 @@ spec:
               value: "3000"
             - name: "KEYCLOAK_URL"
               value: "https://auth.openhmis.erpapps.in"
+            - name: "NODE_TLS_REJECT_UNAUTHORIZED"
+              value: "0"
             - name: "ADMINAPI_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
