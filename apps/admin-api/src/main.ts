@@ -12,7 +12,7 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  const globalPrefix = 'api';
+  const globalPrefix = ApplicationConfig.ADMIN_API.PREFIX||'admin';
   app.setGlobalPrefix(globalPrefix);
   //console.log(process.env)
   const port = process.env.PORT || ApplicationConfig.ADMIN_API.PORT;

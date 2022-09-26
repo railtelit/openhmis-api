@@ -39,7 +39,7 @@ export const ApplicationConfig={
      NOTIFICATION_STORE:{PORT:3605},
      ACCOUNTS_STORE:{PORT:3606},
 
-     ADMIN_API:{PORT:3800},
+     ADMIN_API:{PORT:3800,PREFIX:'admin'},
      PHR_API:{PORT:3801},
      HPR_API:{PORT:3802},
      HIPU_API:{PORT:3803},
