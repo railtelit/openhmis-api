@@ -13,7 +13,7 @@ spec:
         app: admin-api
     spec:
       hostAliases:
-        - ip: "keycloak-service"
+        - ip: "10.11.2.131"
           hostnames:
             - "auth.openhmis.erpapps.in"
       imagePullSecrets:
