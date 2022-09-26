@@ -11,11 +11,15 @@ spec:
     metadata:
       labels:
         app: admin-api
-    spec:      
+    spec:
+      hostAliases:
+        - ip: "keycloak-service"
+          hostnames:
+            - "auth.openhmis.erpapps.in"
       imagePullSecrets:
         - name: jfrogcred
-      containers:        
-      - name: admin-api
+      containers:      
+      - name: admin-api        
         image: railtelhrit.jfrog.io/openhmis-docker/admin-api:latest
         env:
             - name: "PORT"
@@ -31,7 +35,7 @@ spec:
             - name: "NDHM_CLIENT_PORT"
               value: "3000"
             - name: "KEYCLOAK_URL"
-              value: "http://keycloak-service"
+              value: "http://auth.openhmis.erpapps.in"
             - name: "ADMINAPI_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
