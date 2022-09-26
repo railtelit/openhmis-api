@@ -70,6 +70,7 @@ metadata:
   labels:
     name: admin-api-ingress
 spec:
+  ingressClassName: nginx  
   rules:
   - host: api.openhmis.erpapps.in
     http:
