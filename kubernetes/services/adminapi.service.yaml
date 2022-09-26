@@ -66,6 +66,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: admin-api-ingress
+  namespace: openhmis
   labels:
     name: admin-api-ingress
 spec:
