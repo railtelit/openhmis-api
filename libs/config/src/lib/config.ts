@@ -11,10 +11,13 @@ export const EnvironmentNames={
   PORT:'PORT',
   keycloak:{
           ADMINAPI:{CLIENTID:'ADMINAPI_CLIENT_ID',CLIENTSECRET:'ADMINAPI_CLIENT_SECRET',
-               KEYCLOAK_URL:'KEYCLOAK_URL' }
+               KEYCLOAK_URL:'KEYCLOAK_URL' },
+          SECURITY:{CLIENTID:'SECURITY_CLIENT_ID',CLIENTSECRET:'SECURITY_CLIENT_SECRET',
+                    KEYCLOAK_URL:'KEYCLOAK_URL' }
   },
   clientService:{
-          NDHM:{NAME:'NDHM_CLIENT_NAME',HOST:'NDHM_CLIENT_HOST',PORT:'NDHM_CLIENT_PORT'}
+          NDHM:{NAME:'NDHM_CLIENT_NAME',HOST:'NDHM_CLIENT_HOST',PORT:'NDHM_CLIENT_PORT'},
+          SECURITY:{NAME:'MS_SECURITY',HOST:'MS_SECURITY_HOST',PORT:'MS_SECURITY_PORT' },
   }
 }
 export const DatabaseConfig={
@@ -23,11 +26,12 @@ export const DatabaseConfig={
 }
 export const DatabaseNames={
      NDHM:'ndhm',
-     PATIENT:'patient'
+     PATIENT:'patient' 
 }
-
+  
 export const ClientConfig={
-          NDHM:{NAME:'NDHM_CLIENT',HOST:'',PORT:3500 }
+          NDHM:{NAME:'NDHM_CLIENT',HOST:'',PORT:3500 },
+          SECURITY:{NAME:'MS_SECURITY',HOST:'192.168.1.26' }
 }
 
 export const ApplicationConfig={
@@ -35,10 +39,10 @@ export const ApplicationConfig={
      APP_STORE:{PORT:3601},
      HIP_STORE:{PORT:3602},
      HIU_STORE:{PORT:3603},
-     HPR_STORE:{PORT:3604},
+     HPR_STORE:{PORT:3604},     
      NOTIFICATION_STORE:{PORT:3605},
      ACCOUNTS_STORE:{PORT:3606},
-
+     SECURITY_SERVICE:{PORT:3608},
      ADMIN_API:{PORT:3800,PREFIX:'admin'},
      PHR_API:{PORT:3801},
      HPR_API:{PORT:3802},

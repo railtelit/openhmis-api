@@ -6,6 +6,7 @@
     "config": "libs/config",
     "interfaces": "libs/interfaces",
     "microservice-app-store": "apps/microservice/app-store",
-    "microservice-patient-store": "apps/microservice/patient-store"
+    "microservice-patient-store": "apps/microservice/patient-store",
+    "microservice-security": "apps/microservice/security"
   }
 }

@@ -4,12 +4,15 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
+    "startall": "nx run-many --target=serve --parallel=10 --all",
+    "serveall": "nx run-many --target=serve --parallel=10 --all",    
     "build": "nx build",
     "test": "nx test",
     "buildpatient": "nx build microservice-patient-store"
   },
   "private": true,
   "dependencies": {
+    "@keycloak/keycloak-admin-client": "^18.0.2",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",

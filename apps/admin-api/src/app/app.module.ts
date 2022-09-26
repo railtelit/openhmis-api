@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { ClientConfig, EnvironmentNames } from '@openhmis-api/config';
+import { ApplicationConfig, ClientConfig, EnvironmentNames } from '@openhmis-api/config';
 import {
   AuthGuard,
   KeycloakConnectModule,
@@ -17,7 +17,9 @@ import { AdminService } from './admin/admin.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 //console.log(process.env)
 const NDHM_CLIENT_OPTIONS={host: process.env[EnvironmentNames.clientService.NDHM.HOST]|| ClientConfig.NDHM.HOST ,
-      port: Number(process.env[EnvironmentNames.clientService.NDHM.PORT])||ClientConfig.NDHM.PORT } 
+      port: Number(process.env[EnvironmentNames.clientService.NDHM.PORT])||ClientConfig.NDHM.PORT } ;
+const SECURITY_OPTIONS={host:process.env[EnvironmentNames.clientService.SECURITY.NAME]||ClientConfig.SECURITY.HOST,
+      port:Number(process.env[EnvironmentNames.clientService.SECURITY.PORT]) || ApplicationConfig.SECURITY_SERVICE.PORT }
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -44,7 +46,8 @@ const NDHM_CLIENT_OPTIONS={host: process.env[EnvironmentNames.clientService.NDHM
     }),
     ClientsModule.register([
       {name: ClientConfig.NDHM.NAME,transport:Transport.TCP,
-       options: NDHM_CLIENT_OPTIONS }
+       options: NDHM_CLIENT_OPTIONS },
+       {name:ClientConfig.SECURITY.NAME, transport:Transport.TCP,options: SECURITY_OPTIONS }
     ])
   ],
   controllers: [AppController, AdminController],

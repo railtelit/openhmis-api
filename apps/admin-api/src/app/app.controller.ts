@@ -5,7 +5,8 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService,
+        ) {}
 
   @Get()
   getData() {
@@ -16,6 +17,11 @@ export class AppController {
   @Roles({roles:['admin'],mode:RoleMatchingMode.ANY})
   @Get('keycloak')
   async testkeycloak(){
-      return {msg:'Its Working'}
+      return {msg:'Its Working ..'}
+  }
+
+  @Get('testadmin')
+  async testAdmin(){
+       return this.appService.getUsers()
   }
 }
