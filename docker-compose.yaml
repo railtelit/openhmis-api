@@ -12,4 +12,20 @@ services:
     ports:
       - 3600:3600
     image: railtelhrit.jfrog.io/openhmis-docker/patient-store:latest
+  admin-api:
+    build:
+      context: .
+      dockerfile: ./apps/admin-api/Dockerfile
+      args:
+        - appname=admin-api
+    environment:
+      - MONGODB_HOST=192.168.1.26
+      - PORT=3800
+      - NDHM_CLIENT_HOST=192.168.1.26
+      - NDHM_CLIENT_PORT=3500
+    env_file:
+      - .env
+    ports:
+      - 3601:3800
+    image: railtelhrit.jfrog.io/openhmis-docker/admin-api:latest
     
