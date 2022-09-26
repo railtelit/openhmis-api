@@ -8,7 +8,14 @@ export const EnvironmentNames={
          HOST:'192.168.1.26'
      }
   },
-  PORT:'PORT'
+  PORT:'PORT',
+  keycloak:{
+          ADMINAPI:{CLIENTID:'ADMINAPI_CLIENT_ID',CLIENTSECRET:'ADMINAPI_CLIENT_SECRET',
+               KEYCLOAK_URL:'KEYCLOAK_URL' }
+  },
+  clientService:{
+          NDHM:{NAME:'NDHM_CLIENT_NAME',HOST:'NDHM_CLIENT_HOST',PORT:'NDHM_CLIENT_PORT'}
+  }
 }
 export const DatabaseConfig={
   MONGO:{ DEFAULT_HOST:`192.168.1.26`,PORT:27017, 
@@ -17,6 +24,10 @@ export const DatabaseConfig={
 export const DatabaseNames={
      NDHM:'ndhm',
      PATIENT:'patient'
+}
+
+export const ClientConfig={
+          NDHM:{NAME:'NDHM_CLIENT',HOST:'',PORT:3500 }
 }
 
 export const ApplicationConfig={
