@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { ClientConfig, MessagePatterns } from '@openhmis-api/config';
+import { ClientConfig,   } from '@openhmis-api/config';
+import { AppMessagePatterns } from '@openhmis-api/interfaces';
 
 @Injectable()
 export class AppService {
@@ -12,6 +13,6 @@ export class AppService {
   }
 
   async getUsers(){
-       return this.securityClient.send(MessagePatterns.security.users.findAll,{})
+       return this.securityClient.send(AppMessagePatterns.security.users.findAll,{})
   }
 }

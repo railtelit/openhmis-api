@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: openhmispg
+  namespace: openhmis
+spec:
+  selector:
+    matchLabels:
+      app: openhmispg
+  serviceName: openhmispg
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: openhmispg
+    spec:
+      containers:
+      - name: openhmispg
+        image: postgres
+        env:
+          - name: POSTGRES_PASSWORD
+            value: postgres
+          - name: POSTGRES_USER
+            value: openhmis
+          - name: POSTGRES_PASSWORD
+            value: openhmis
+          - name: POSTGRES_DB
+            value: openhmis
+        ports:
+        - containerPort: 5432
+          name: backend
+        volumeMounts:
+        - name: openhmispg-pvc
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: openhmispg-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      volumeName: openhmispg-pv
+      resources:
+        requests:
+          storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openhmispg-service
+  namespace: openhmis
+spec:
+  selector:
+    app: openhmispg
+  ports:
+  - port: 5432
+    targetPort: 5432

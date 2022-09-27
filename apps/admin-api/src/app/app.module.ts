@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { ApplicationConfig, ClientConfig, EnvironmentNames } from '@openhmis-api/config';
+import {
+  ApplicationConfig,
+  ClientConfig,
+  EnvironmentNames,
+} from '@openhmis-api/config';
 import {
   AuthGuard,
   KeycloakConnectModule,
@@ -15,11 +19,13 @@ import { AppService } from './app.service';
 import { AdminController } from './admin/admin.controller';
 import { AdminService } from './admin/admin.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ManageHipService } from './manage-hip/manage-hip.service';
+import { ManageHiuService } from './manage-hiu/manage-hiu.service';
+import { ManageHipController } from './manage-hip/manage-hip.controller';
+import { ManageHiuController } from './manage-hiu/manage-hiu.controller';
+import { clients } from './clients';
 //console.log(process.env)
-const NDHM_CLIENT_OPTIONS={host: process.env[EnvironmentNames.clientService.NDHM.HOST]|| ClientConfig.NDHM.HOST ,
-      port: Number(process.env[EnvironmentNames.clientService.NDHM.PORT])||ClientConfig.NDHM.PORT,retryAttempts:10,reconnect:true, } ;
-const SECURITY_OPTIONS={host:process.env[EnvironmentNames.clientService.SECURITY.NAME]||ClientConfig.SECURITY.HOST,
-      port:Number(process.env[EnvironmentNames.clientService.SECURITY.PORT]) || ApplicationConfig.SECURITY_SERVICE.PORT }
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -44,19 +50,22 @@ const SECURITY_OPTIONS={host:process.env[EnvironmentNames.clientService.SECURITY
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
-    ClientsModule.register([
-      {name: ClientConfig.NDHM.NAME,transport:Transport.TCP,
-       options: NDHM_CLIENT_OPTIONS  },
-       {name:ClientConfig.SECURITY.NAME, transport:Transport.TCP,options: SECURITY_OPTIONS }
-    ])
+    ClientsModule.register(clients),
   ],
-  controllers: [AppController, AdminController],
+  controllers: [
+    AppController,
+    AdminController,
+    ManageHipController,
+    ManageHiuController,
+  ],
   providers: [
     AppService,
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: RoleGuard },
     { provide: APP_GUARD, useClass: ResourceGuard },
     AdminService,
+    ManageHipService,
+    ManageHiuService,
   ],
 })
 export class AppModule {}

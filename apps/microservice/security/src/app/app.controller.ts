@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { MessagePatterns } from '@openhmis-api/config';
-import { DataInterface } from '@openhmis-api/interfaces';
+import {  } from '@openhmis-api/config';
+import { AppMessagePatterns, DataInterface } from '@openhmis-api/interfaces';
 
 import { AppService } from './app.service';
 import { UsermanageService } from './usermanage/usermanage.service';
@@ -16,7 +16,7 @@ export class AppController {
     return this.appService.getData();
   }
 
-  @MessagePattern(MessagePatterns.security.users.findAll)
+  @MessagePattern(AppMessagePatterns.security.users.findAll)
   async getAllUsers(@Payload() payload:DataInterface){
        return this.userManageService.getAllUsers();
   }

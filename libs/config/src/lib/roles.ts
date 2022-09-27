@@ -1,0 +1,4 @@
+
+
+
+export type SECURITY_ROLES ='HIPADMIN'|'HPR'
