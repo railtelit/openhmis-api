@@ -17,7 +17,7 @@ import { AdminService } from './admin/admin.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 //console.log(process.env)
 const NDHM_CLIENT_OPTIONS={host: process.env[EnvironmentNames.clientService.NDHM.HOST]|| ClientConfig.NDHM.HOST ,
-      port: Number(process.env[EnvironmentNames.clientService.NDHM.PORT])||ClientConfig.NDHM.PORT } ;
+      port: Number(process.env[EnvironmentNames.clientService.NDHM.PORT])||ClientConfig.NDHM.PORT,retryAttempts:10,reconnect:true, } ;
 const SECURITY_OPTIONS={host:process.env[EnvironmentNames.clientService.SECURITY.NAME]||ClientConfig.SECURITY.HOST,
       port:Number(process.env[EnvironmentNames.clientService.SECURITY.PORT]) || ApplicationConfig.SECURITY_SERVICE.PORT }
 @Module({
