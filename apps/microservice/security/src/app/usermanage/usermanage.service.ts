@@ -11,4 +11,8 @@ export class UsermanageService {
                 console.log(`Finding All Users `);
                 return this.adminservice.kcAdminClient.users.find()
         }
+
+        async createUser(){
+                 //this.adminservice.kcAdminClient.users.create({ })
+        }
 }

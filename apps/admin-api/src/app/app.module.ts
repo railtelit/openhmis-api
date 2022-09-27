@@ -46,7 +46,7 @@ const SECURITY_OPTIONS={host:process.env[EnvironmentNames.clientService.SECURITY
     }),
     ClientsModule.register([
       {name: ClientConfig.NDHM.NAME,transport:Transport.TCP,
-       options: NDHM_CLIENT_OPTIONS },
+       options: NDHM_CLIENT_OPTIONS  },
        {name:ClientConfig.SECURITY.NAME, transport:Transport.TCP,options: SECURITY_OPTIONS }
     ])
   ],
