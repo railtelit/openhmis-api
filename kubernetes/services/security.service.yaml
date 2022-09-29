@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security
+  namespace: openhmis
+spec:
+  selector:
+    matchLabels:
+      app: security
+  template:
+    metadata:
+      labels:
+        app: security
+    spec:
+      hostAliases:
+        - ip: "10.11.2.131"
+          hostnames:
+            - "auth.openhmis.erpapps.in"
+      imagePullSecrets:
+        - name: jfrogcred
+      containers:        
+      - name: security
+        image: railtelhrit.jfrog.io/openhmis-docker/security:latest
+        env:
+            - name: "PORT"
+              value: "3000"
+            - name: "NODE_TLS_REJECT_UNAUTHORIZED"
+              value: "0"
+            - name: "MONGODB_HOST"
+              value: "mongo-service"
+            - name: "MONGODB_PORT"
+              value: "27017"
+            - name: "KAFKA_BROKER_ADDRESSLIST"
+              value: "kafka-cluster-kafka-brokers.kafka:9092"
+            - name: "KEYCLOAK_URL"
+              value: "https://auth.openhmis.erpapps.in"
+            - name: "SECURITY_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  key: SECURITY_CLIENT_ID
+                  name: keycloaksecret
+            - name: "SECURITY_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  key: SECURITY_CLIENT_SECRET
+                  name: keycloaksecret
+        resources:
+          limits:
+            memory: "228Mi"
+            cpu: "500m"
+            ephemeral-storage: 1Gi
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: security-service
+  namespace: openhmis
+spec:
+  selector:
+    app: security
+  ports:
+  - port: 3000
+    targetPort: 3000

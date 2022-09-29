@@ -16,7 +16,7 @@ const NDHM_CLIENT_OPTIONS = {
   };
   const SECURITY_OPTIONS = {
     host:
-      process.env[EnvironmentNames.clientService.SECURITY.NAME] ||
+      process.env[EnvironmentNames.clientService.SECURITY.HOST] ||
       ClientConfig.SECURITY.HOST,
     port:
       Number(process.env[EnvironmentNames.clientService.SECURITY.PORT]) ||

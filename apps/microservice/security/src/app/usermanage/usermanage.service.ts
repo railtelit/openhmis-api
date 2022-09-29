@@ -15,13 +15,14 @@ export class UsermanageService {
                 return this.adminservice.kcAdminClient.users.find()
         }
         async getClientByName(clientName:string){
-                return (await  this.adminservice.kcAdminClient.clients.find({clientId:clientName})).at(0)
+                return (await  this.adminservice.kcAdminClient.clients.find({clientId:clientName}))?.[0]
         }
 
         async ensureRoleExists(checkRoles:{realm:string,clientid:string,roles:string[] }){
                 const {clientid,realm}=checkRoles
-                console.log('listing ROles',checkRoles);
-                const KCclient = (await  this.adminservice.kcAdminClient.clients.find({clientId:clientid})).at(0)
+                console.log('listing ROles',checkRoles,clientid,realm);
+                const KCclient = (await  this.adminservice.kcAdminClient.clients.find({clientId:clientid}))?.[0]
+                
                 if(!KCclient){
                         console.log(`Client Not EXISTS`); return  ;
                 }
