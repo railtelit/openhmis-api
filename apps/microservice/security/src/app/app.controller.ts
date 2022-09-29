@@ -20,5 +20,11 @@ export class AppController {
   async getAllUsers(@Payload() payload:DataInterface){
        return this.userManageService.getAllUsers();
   }
+
+  @MessagePattern(AppMessagePatterns.security.users.createAdminUser)
+  async createAdminUser(@Payload() payload){
+      console.log(`Create User `,payload)
+      return this.userManageService.createAdminUser(payload)
+  }
   
 }

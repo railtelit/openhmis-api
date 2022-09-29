@@ -24,4 +24,5 @@ export class AppController {
   async testAdmin(){
        return this.appService.getUsers()
   }
+  
 }
