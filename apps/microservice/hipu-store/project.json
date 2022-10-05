@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/microservice/hipu-store/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/microservice/hipu-store",
+        "main": "apps/microservice/hipu-store/src/main.ts",
+        "tsConfig": "apps/microservice/hipu-store/tsconfig.app.json",
+        "assets": ["apps/microservice/hipu-store/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/microservice/hipu-store/src/environments/environment.ts",
+              "with": "apps/microservice/hipu-store/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "options": {
+        "buildTarget": "microservice-hipu-store:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "microservice-hipu-store:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/microservice/hipu-store/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/microservice/hipu-store"],
+      "options": {
+        "jestConfig": "apps/microservice/hipu-store/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

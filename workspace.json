@@ -4,8 +4,11 @@
   "projects": {
     "admin-api": "apps/admin-api",
     "config": "libs/config",
+    "hipu-api": "apps/hipu-api",
     "interfaces": "libs/interfaces",
     "microservice-app-store": "apps/microservice/app-store",
+    "microservice-hipu-store": "apps/microservice/hipu-store",
+    "microservice-hpr-store": "apps/microservice/hpr-store",
     "microservice-patient-store": "apps/microservice/patient-store",
     "microservice-security": "apps/microservice/security"
   }

@@ -23,8 +23,8 @@ const NDHM_CLIENT_OPTIONS = {
       ApplicationConfig.SECURITY_SERVICE.PORT,
   };
   const HIP_STORE_OPTIONS={
-        host:process.env[EnvironmentNames.clientService.HIP_STORE.HOST]||ApplicationConfig.DEFAULT.HOST,
-        port:Number(process.env[EnvironmentNames.clientService.HIP_STORE.PORT]) || ApplicationConfig.HIP_STORE.PORT
+        host:process.env[EnvironmentNames.clientService.HIPU_STORE.HOST]||ApplicationConfig.DEFAULT.HOST,
+        port:Number(process.env[EnvironmentNames.clientService.HIPU_STORE.PORT]) || ApplicationConfig.HIPU_STORE.PORT
   }
 export const clients:ClientsModuleOptions=[
     {

@@ -5,7 +5,7 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions } from '@nestjs/microservices';
+import { MicroserviceOptions, TcpOptions, Transport } from '@nestjs/microservices';
 import { ApplicationConfig } from '@openhmis-api/config';
 
 import { SecurityAppModule } from './app/app.module';
@@ -13,7 +13,7 @@ import { SecurityAppModule } from './app/app.module';
 async function bootstrap() {
   const port = process.env.PORT || ApplicationConfig.SECURITY_SERVICE.PORT ;
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(SecurityAppModule,
-     {options:{host:ApplicationConfig.DEFAULT.LISTEN_HOST,port}} );  
+     {options:{host:ApplicationConfig.DEFAULT.LISTEN_HOST,port  },transport:Transport.TCP } as TcpOptions );       
   // app.setGlobalPrefix(globalPrefix);
   await app.listen();
   Logger.log(
