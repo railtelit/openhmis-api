@@ -5,7 +5,8 @@ export const EnvironmentNames={
          HOST:'MONGODB_HOST',PORT:'MONGODB_PORT',USER:"MONGODB_USER",PASSWORD:"MONGODB_PASSWORD"
      },
      PG:{
-         HOST:'OPENHMISDB_HOST',PORT:'OPENHMISDB_PORT',USER:"OPENHMISDB_USER",PASSWORD:"OPENHMISDB_PASSWORD"
+         HOST:'OPENHMIS_PGHOST',PORT:'OPENHMIS_PGPORT',DATABASE:'OPENHMIS_PGDATABASE',
+         USER:"OPENHMIS_PGUSER",PASSWORD:"OPENHMIS_PGPASSWORD"
      },
      DEFAULT:{
          HOST:'192.168.1.26'
@@ -27,7 +28,8 @@ export const EnvironmentNames={
 }
 export const DatabaseConfig={
   MONGO:{ DEFAULT_HOST:`192.168.1.26`,PORT:27017, 
-     DEFAULT_USERNAME:`admin`,DEFAULT_PASSWORD:`admin` }
+     DEFAULT_USERNAME:`admin`,DEFAULT_PASSWORD:`admin` },
+  PG:{DEFAULT_USERNAME:'openhmis',DEFAULT_PASSWORD:'openhmis',DEFAULT_DATABASE:'openhmis'}
 }
 export const DatabaseNames={
      NDHM:'ndhm',

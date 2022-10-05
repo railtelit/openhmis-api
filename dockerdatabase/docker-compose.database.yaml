@@ -18,6 +18,17 @@ services:
       - POSTGRES_DB=keycloak
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  openhmis_pg:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=openhmis
+      - POSTGRES_PASSWORD=openhmis
+      - POSTGRES_DB=openhmis
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
   keycloak:
     image: quay.io/keycloak/keycloak:19.0.2
     command: start-dev --db=postgres --db-url-host=keycloak_pg --db-username=keycloak --db-password=keycloak
@@ -38,4 +49,6 @@ volumes:
   mongo_data:
     driver: local
   postgres_data:
+    driver: local  
+  openhmis_data:
     driver: local

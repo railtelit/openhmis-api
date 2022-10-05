@@ -1,5 +1,16 @@
 version: '3.9'
 services:
+  openhmis_pg:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=openhmis
+      - POSTGRES_PASSWORD=openhmis
+      - POSTGRES_DB=openhmis
+    volumes:
+      - openhmis_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
   patient-store:
     build:
       context: .
@@ -46,4 +57,18 @@ services:
     ports:
       - 3602:3000
     image: railtelhrit.jfrog.io/openhmis-docker/security:latest
-    
+  hipu-store:
+    build:
+      context: .
+      dockerfile: ./apps/microservice/hipu-store/Dockerfile
+      args:
+        - appname=hipu-store
+    environment:
+      - PG_HOST=192.168.1.26
+      - PORT=3600
+    ports:
+      - 3603:3600
+    image: railtelhrit.jfrog.io/openhmis-docker/hipu-store:latest
+volumes:
+  openhmis_data:
+    driver: local
