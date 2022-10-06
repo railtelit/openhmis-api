@@ -28,7 +28,7 @@ import { clients } from './clients';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }), ClientsModule.register(clients),
     KeycloakConnectModule.registerAsync({
       useFactory: (configservice: ConfigService) => {
         const options = {
@@ -50,7 +50,7 @@ import { clients } from './clients';
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
-    ClientsModule.register(clients),
+   
   ],
   controllers: [
     AppController,

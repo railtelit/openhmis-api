@@ -16,3 +16,7 @@ export * from './patient.interface'
 export * from './message-patterns.interface'
 
 export * from './security.interface'
+
+export * from './hipu/hipu.interface'
+
+export * from './dto'

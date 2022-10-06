@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 
 import { AppService } from './app.service';
 
@@ -10,4 +11,11 @@ export class AppController {
   getData() {
     return this.appService.getData();
   }
+
+
+  @MessagePattern('heartbeat')
+  async heartbeat(){
+      return {status:'ok'}
+  }
+  
 }

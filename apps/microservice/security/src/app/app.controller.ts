@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {  } from '@openhmis-api/config';
-import { AppMessagePatterns, DataInterface } from '@openhmis-api/interfaces';
+import { AppMessagePatterns, DataInterface, SecurityRemoveUserDTO } from '@openhmis-api/interfaces';
 
 import { AppService } from './app.service';
 import { UsermanageService } from './usermanage/usermanage.service';
@@ -25,6 +25,13 @@ export class AppController {
   async createAdminUser(@Payload() payload){
       console.log(`Create User `,payload)
       return this.userManageService.createAdminUser(payload)
+  }
+  
+
+  @MessagePattern(AppMessagePatterns.security.users.removeUser)
+  async removeAdminUser(@Payload() payload:DataInterface<SecurityRemoveUserDTO>){
+      console.log(`Removing User `,payload)
+      return this.userManageService.removeUser(payload.data)
   }
   
 }

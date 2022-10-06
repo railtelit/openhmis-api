@@ -1,9 +1,10 @@
-import { HttpException, Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { BadRequestException, HttpException, Inject, Injectable, NotFoundException, OnApplicationBootstrap } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ClientConfig } from '@openhmis-api/config';
-import { AppMessagePatterns, CreateUserInterface, DataInterface, GetDataInterface, PostDataInterface } from '@openhmis-api/interfaces';
+import { AppMessagePatterns, CreateUserInterface, DataInterface, FindOneHSPDTO, GetDataInterface, PostDataInterface, SaveHSPDTO, SecurityRemoveUserDTO, setAdminUseridDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
 import { delay, lastValueFrom, retry, tap, timeout } from 'rxjs';
 import Axios from 'axios'
+import { IsNotEmpty } from 'class-validator';
 @Injectable()
 export class AdminService {
         static scount=0
@@ -11,7 +12,10 @@ export class AdminService {
         private adminMap:any={}
         sequence = 1 ; 
         constructor(@Inject(ClientConfig.NDHM.NAME) private ndhmClient:ClientProxy,
-                 @Inject(ClientConfig.SECURITY.NAME) private security:ClientProxy){
+                 @Inject(ClientConfig.SECURITY.NAME) private security:ClientProxy ,
+                 @Inject(ClientConfig.HIPSTORE.NAME) private hipClient:ClientProxy 
+
+                 ){
                 AdminService.scount++;
         }
 
@@ -47,21 +51,35 @@ export class AdminService {
                          }) )
         }
         async getServiceAdmin(serviceid:string){
-                        return this.adminMap[serviceid]
+                        const pr:DataInterface<FindOneHSPDTO> = {headers:{},data:{serviceid}}
+                        return this.hipClient.send(AppMessagePatterns.hipstore.hsp.findOneHSP,pr)
         }
         async initializeService(service:any){
-                if(!this.serviceMap[service?.id]){
-                        this.serviceMap[service?.id]={...service,serviceid:service?.id};
+                ///Take Request From 
+                const {id,name}=service
+                const hspExists = await lastValueFrom(
+                        this.hipClient.send(AppMessagePatterns.hipstore.hsp.findOneHSP,
+                                        {data:{serviceid:id}} as DataInterface<FindOneHSPDTO> )
+                        )
+                if(hspExists?.serviceid){
+                        return hspExists
                 }
-                console.log(`After Init `, this.serviceMap)
-                return this.serviceMap[service?.id]; 
+                const hsp:SaveHSPDTO =  {  serviceid:id, email:'',servicename:name,suffix:'',
+                                                service_types: service?.types||[]  }
+                const payload:DataInterface<SaveHSPDTO> = { headers:{}, data:hsp }; 
+                
+                this.hipClient.send(AppMessagePatterns.hipstore.hsp.saveHSP, payload )
+ 
         }
 
         async createServiceAdmin(create:CreateServiceAdminDTO){
                 // 
                 console.log(this.serviceMap)
-                const service = this.serviceMap[create?.serviceid];
-                const serviceid=create?.serviceid
+                // const service = this.serviceMap[create?.serviceid];
+                const serviceid=create.serviceid
+                const service =  await     lastValueFrom( this.hipClient.send(AppMessagePatterns.hipstore.hsp.findOneHSP, 
+                        {headers:{},data:{serviceid:create.serviceid}} as DataInterface<FindOneHSPDTO> ) ) 
+                
                 if(!service){
                         return null
                 }
@@ -72,29 +90,52 @@ export class AdminService {
                 this.serviceMap[serviceid]=service
                 this.sequence++
                 const username = `SA${create?.stateCode}${this.sequence.toString().padStart(3,'0')}`
-                const client_roles={'react-app':['service-admin'].concat(service?.types||[]),
+                const client_roles={'react-app':['service-admin'].concat(service?.service_types||[]),
                                         'app-api':['service-admin']}
                 const securityPayload:DataInterface={headers:{},
                         data:{username,password:'12345',client_roles,
                                 realm:'openhmis-app'} as CreateUserInterface };
                 const kcUser= await lastValueFrom(this.security.send(AppMessagePatterns.security.users.createAdminUser,
                         securityPayload)).catch(err=>{                                        
-                                        throw new HttpException(`Internal Application Error ${err?.message} `,500)
+                                        throw new HttpException(`Internal Application Custom Error ${err?.message} `,500)
                         }); 
                 console.log(`KC User Created`,kcUser);
-                const newUser= {userid:this.sequence,username,serviceid:service.id,stateCode:create?.stateCode}; 
-                this.adminMap[serviceid]=newUser; 
+                // const newUser= {userid:this.sequence,username,serviceid:service.id,stateCode:create?.stateCode};
+                // await this.hipClient.send(AppMessagePatterns.hipstore.hsp.saveHSP,{data:},headers:{}} as DataInterface<SaveHSPDTO>) 
+                // Update 
+                const setAdminUser:DataInterface<setAdminUseridDTO>={headers:{},
+                        data:{adminuserid:username,serviceid:create.serviceid,
+                                districtCode:create.districtCode,
+                                stateCode:create.stateCode}}
+                const newUser = await this.hipClient.send(AppMessagePatterns.hipstore.hsp.setAdminuserid,setAdminUser)
+                //this.adminMap[serviceid]=newUser; 
                 return newUser;
         }
+
+        async unAssignAdminUser(data:UnAssignAdminUserDTO){ 
+                const {serviceid}=data
+                const pr:DataInterface<UnAssignAdminUserDTO>={ headers:{},data};
+                const hsp  = await lastValueFrom ( this.hipClient.send(AppMessagePatterns.hipstore.hsp.findOneHSP,
+                                {data:{serviceid}} as DataInterface<FindOneHSPDTO> ));
+                if(!hsp?.adminuserid){
+                        throw new BadRequestException(`Invalid Service Id ${serviceid}`);
+                }
+                const userRemoved = await lastValueFrom(this.security.send(AppMessagePatterns.security.users.removeUser,
+                                {headers:{},data:{username:hsp.adminuserid }} as DataInterface<SecurityRemoveUserDTO>)
+                )
+                console.log(userRemoved);
+                if(!userRemoved?.username){
+                        throw new NotFoundException(`Admin User Not Found ${serviceid}`)
+                }
+                return this.hipClient.send(AppMessagePatterns.hipstore.hsp.unAssignAdminuser,pr)
+          }
        
 }
 
 export class CreateServiceAdminDTO{
+        @IsNotEmpty()
         serviceid:string
         stateCode:string; 
         districtCode:string
 }
-
-
-
 

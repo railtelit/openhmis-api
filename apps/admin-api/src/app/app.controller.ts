@@ -1,7 +1,9 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { AuthGuard, RoleGuard, RoleMatchingMode, Roles } from 'nest-keycloak-connect';
+import { Body, Controller, Get, Post, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { FindOneHSPDTO, SaveHSPDTO } from '@openhmis-api/interfaces';
+import { IsNotEmpty } from 'class-validator';
+import { AuthGuard, RoleGuard, RoleMatchingMode, Roles, Unprotected } from 'nest-keycloak-connect';
 
-import { AppService } from './app.service';
+import { AppService,   } from './app.service';
 
 @Controller()
 export class AppController {
@@ -23,6 +25,21 @@ export class AppController {
   @Get('testadmin')
   async testAdmin(){
        return this.appService.getUsers()
+  }
+
+  @Unprotected()
+  @Get('findhsp')
+  @UsePipes(new ValidationPipe())
+  async findHSP( @Query() query:FindOneHSPDTO ){
+      return this.appService.getAllHSP();
+  }
+  
+  @Unprotected()
+  @Post('savehsp')
+  @UsePipes(new ValidationPipe({transform:true}))
+  async createHSP( @Body() save:SaveHSPDTO ){
+      console.log(`Transfor hsp `,save)
+      return this.appService.saveHSP(save);
   }
   
 }

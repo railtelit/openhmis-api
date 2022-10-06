@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post, Query, UseGuards } from '@nestjs/common';
 import { ClientProxy, Payload } from '@nestjs/microservices';
 import { ApplicationConfig, ClientConfig, InvalidRequestError, } from '@openhmis-api/config';
-import { AppMessagePatterns } from '@openhmis-api/interfaces';
+import { AppMessagePatterns, SaveHSPDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
 import { AuthGuard, RoleGuard, Roles } from 'nest-keycloak-connect';
 import { pipe, retry, timeout } from 'rxjs';
 import { AdminService, CreateServiceAdminDTO } from './admin.service';
@@ -47,8 +47,13 @@ export class AdminController {
              
     }
 
+    @Post('unAssignAdminUser')
+    async UnAssignServiceAdmin(@Body() request:UnAssignAdminUserDTO){
+                return this.adminService.unAssignAdminUser(request)
+    }
+
     @Post('initializeService')
-    async initializeHealthService(@Body() service){
+    async initializeHealthService(@Body() service:SaveHSPDTO){
                 ///Todo :   Get Details -> Sync in OpenHMIS -> Return Same :
                 if(!service){
                                  throw new InvalidRequestError(`No Service Request Error `);
@@ -61,6 +66,7 @@ export class AdminController {
                 // 
                 return this.adminService.getServiceAdmin(serviceid)
     }
+
 
     @Post('createServiceAdmin')
     async createServiceAdmin(@Body() create:CreateServiceAdminDTO ){

@@ -1,7 +1,8 @@
 import RoleRepresentation, { RoleMappingPayload } from '@keycloak/keycloak-admin-client/lib/defs/roleRepresentation';
 import { Injectable } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 import { InvalidRequestError } from '@openhmis-api/config';
-import { CreateUserInterface, DataInterface } from '@openhmis-api/interfaces';
+import { CreateUserInterface, DataInterface, SecurityRemoveUserDTO } from '@openhmis-api/interfaces';
 import { KcadminclientService } from '../kcadminclient/kcadminclient.service';
 
 @Injectable()
@@ -16,6 +17,19 @@ export class UsermanageService {
         }
         async getClientByName(clientName:string){
                 return (await  this.adminservice.kcAdminClient.clients.find({clientId:clientName}))?.[0]
+        }
+
+        async removeUser(remove:SecurityRemoveUserDTO){
+                const {username}=remove;
+                const sResults = await this.adminservice.kcAdminClient.users.find({username})
+                if(sResults?.length==1){
+                        await this.adminservice.kcAdminClient.users.del({id:sResults[0].id}); 
+                        console.log(`UserRemoved  ${username}`)
+                        return sResults[0]
+                }else{
+                         throw new RpcException(`No User Found ${username}`)
+                }
+                return null
         }
 
         async ensureRoleExists(checkRoles:{realm:string,clientid:string,roles:string[] }){
