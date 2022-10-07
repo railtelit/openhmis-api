@@ -10,6 +10,11 @@ export class ManageHspController {
 
   }
 
+  @MessagePattern(HSP_PATTERNS.getNextHSPSequence)
+  async getNextHSPSeq(@Payload()  payload:DataInterface  ) {
+    
+    return  this.manageHspService.getNextHSPSequence()
+  }
   @MessagePattern(HSP_PATTERNS.getAllHSP)
   async getAllHSP(@Payload()  payload:DataInterface  ) {
     

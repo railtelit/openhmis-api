@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { FindOneHSPDTO, SaveHSPDTO, setAdminUseridDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
 import { DataSource, ILike, IsNull, Repository } from 'typeorm';
@@ -6,14 +6,23 @@ import { HSPOrganisation } from '../resource/entities';
 import { HealthServiceProvider } from '../resource/entities/health-service-provider.entity';
 
 @Injectable()
-export class ManageHspService {
-       
+export class ManageHspService implements OnApplicationBootstrap {
+          private SEQUENCES = ['hsp_seq']
          constructor(@InjectRepository(HealthServiceProvider) private hsp:Repository<HealthServiceProvider>,
            @InjectRepository(HSPOrganisation) private orgrepo:Repository<HSPOrganisation>,
               private con:DataSource ){
          
          }
-
+         async onApplicationBootstrap() {
+             // ensure Sequence Generators are Ready 
+            await Promise.all (  this.SEQUENCES.map( (seq)=> 
+                    this.con.createQueryRunner().query(`CREATE SEQUENCE IF NOT EXISTS ${seq}`)
+              )
+            )
+         }
+         async getNextHSPSequence(){
+               return this.con.createQueryRunner().query(`select nextval('hsp_seq'),currval('hsp_seq')`).then(r=> r?.[0] || {} )
+         }
          async getAllHSP(){
                      return this.hsp.find()
          }

@@ -41,5 +41,12 @@ export class AppController {
       console.log(`Transfor hsp `,save)
       return this.appService.saveHSP(save);
   }
+  @Unprotected()
+  @Get('hspseq')
+  @UsePipes(new ValidationPipe({transform:true}))
+  async nextHSPseq(){
+      
+      return this.appService.nextHSPSeq();
+  }
   
 }

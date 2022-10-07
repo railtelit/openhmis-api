@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnApplicationBootstrap } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,6 +9,8 @@ import {
   EnvironmentNames,
 } from '@openhmis-api/config';
 import { ManageHspModule } from './manage-hsp/manage-hsp.module';
+import { ManageHspworkerModule } from './manage-hspworker/manage-hspworker.module';
+import { ManageHspOrgModule } from './manage-hsporg/manage-hsporg.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -30,11 +32,19 @@ import { ManageHspModule } from './manage-hsp/manage-hsp.module';
       autoLoadEntities: true,
     }),
     ManageHspModule,
-
+    ManageHspworkerModule,
+    ManageHspOrgModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
-
-
+export class AppModule implements OnApplicationBootstrap {
+  async onApplicationBootstrap() {
+    //
+    try {
+      //
+    } catch (error) {
+      //
+    }
+  }
+}

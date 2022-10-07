@@ -2,7 +2,7 @@ import { BadRequestException, HttpException, Inject, Injectable, NotFoundExcepti
 import { ClientProxy } from '@nestjs/microservices';
 import { ClientConfig } from '@openhmis-api/config';
 import { AppMessagePatterns, CreateUserInterface, DataInterface, FindOneHSPDTO, GetDataInterface, PostDataInterface, SaveHSPDTO, SecurityRemoveUserDTO, setAdminUseridDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
-import { delay, lastValueFrom, retry, tap, timeout } from 'rxjs';
+import { delay, last, lastValueFrom, retry, tap, timeout } from 'rxjs';
 import Axios from 'axios'
 import { IsNotEmpty } from 'class-validator';
 @Injectable()
@@ -68,7 +68,7 @@ export class AdminService {
                                                 service_types: service?.types||[]  }
                 const payload:DataInterface<SaveHSPDTO> = { headers:{}, data:hsp }; 
                 
-                this.hipClient.send(AppMessagePatterns.hipstore.hsp.saveHSP, payload )
+                return this.hipClient.send(AppMessagePatterns.hipstore.hsp.saveHSP, payload )
  
         }
 
@@ -88,7 +88,9 @@ export class AdminService {
                 service['stateCode']=create?.stateCode
                 service['districtCode']=create?.districtCode
                 this.serviceMap[serviceid]=service
-                this.sequence++
+                //this.sequence++
+                this.sequence= (await lastValueFrom(this.hipClient.send(AppMessagePatterns.hipstore.hsp.getNextHSPSequence,{}))).nextval
+
                 const username = `SA${create?.stateCode}${this.sequence.toString().padStart(3,'0')}`
                 const client_roles={'react-app':['service-admin'].concat(service?.service_types||[]),
                                         'app-api':['service-admin']}

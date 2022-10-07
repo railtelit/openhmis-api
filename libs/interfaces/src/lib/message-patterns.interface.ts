@@ -19,7 +19,14 @@ export const AppMessagePatterns={
         users:{
             findOne:'users.findone',
             saveAdminUser:'users.saveAdminUser',
-            saveNormalUser:'users.saveNormalUser'
+            saveNormalUser:'users.saveNormalUser',
+            getHSPWorkers:'users.getWorkers',
+            findOneHSPWorker:'users.findOneWorker',
+            addHSPWorker:'users.addWorker',
+            getHSPWorkerRoles:'users.getRoles',
+            assignHSPWorkerRole:'users.assignRole',
+            unassignHSPWorkerRole:'users.unassignRole',
+            // setProfilePic:'users.setProfilePic'
         },
         hsp:{
             getAllHSP:'hsp.findAll',
@@ -28,7 +35,18 @@ export const AppMessagePatterns={
             findHSP:'hsp.search',
             deactivateHSP:'hsp.deactivate',
             setAdminuserid:'hsp.setAdminuserid',
-            unAssignAdminuser:'hsp.unAssignAdminuser'
+            unAssignAdminuser:'hsp.unAssignAdminuser',
+            getNextHSPSequence:'hsp.nextSequence'
+        },
+        hsporg:{
+            getAllHSPOrg:'org.getAllHSPOrg',
+            createHSPOrg:'org.createOrg',
+             getHSPLocations:'org.getHSPLocations',
+             searchHSPLocations:'org.SearchHSPLocations',
+             createHSPLocation:'org.createHSPLocation', 
+             updateHSPLocationStatus:'org.updateLocationStatus',
+             removeHSPLocation:'org.removeLocation',
+             updateHSPLocation:'org.updateLocation'             
         }
     }
 }

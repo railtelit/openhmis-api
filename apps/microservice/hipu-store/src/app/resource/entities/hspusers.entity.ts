@@ -1,5 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { HSPLocation } from "./hsp-location.entity";
 import { HSPOrganisation } from "./hsp-organization.entity";
+import { HSPUserRole } from "./hsp-userroles.entity";
 
 @Entity({name:'hsp_users'})
 export class HSPUser{
@@ -9,7 +11,20 @@ export class HSPUser{
         @Column()
         username:string;
 
+        @Column({nullable:true})
+        keycloakid:string
+
+        @Column({nullable:true})
+        emailid:string
+        
+        @Column({nullable:true})
+        mobileno:string
 
         @ManyToOne(()=>HSPOrganisation,(org)=>org.users)
-        org:HSPOrganisation
+        org:HSPOrganisation 
+
+
+        @ManyToMany(()=>HSPUserRole,(r)=>r.user)
+        userroles:HSPUserRole[]
 }
+

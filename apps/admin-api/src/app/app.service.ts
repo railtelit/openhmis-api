@@ -29,8 +29,13 @@ export class AppService {
   async saveHSP(save:SaveHSPDTO){
       const payload:DataInterface={headers:{},data:save}
       return this.hipStoreClient.send(AppMessagePatterns.hipstore.hsp.saveHSP,payload)
-  }
+    }
+    
+  async nextHSPSeq(){
 
+    return this.hipStoreClient.send(AppMessagePatterns.hipstore.hsp.getNextHSPSequence,{})
+
+  }
  
 }
 
