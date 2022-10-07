@@ -111,7 +111,16 @@ export class AdminService {
                                 stateCode:create.stateCode}}
                 const newUser = await this.hipClient.send(AppMessagePatterns.hipstore.hsp.setAdminuserid,setAdminUser)
                 //this.adminMap[serviceid]=newUser; 
+                await this.ensureHSPAdminUser(newUser).catch(err=>{
+                                 console.error(err)
+                })
                 return newUser;
+        }
+
+        async ensureHSPAdminUser(hsp:any){
+                /// 
+                const {adminuserid}=hsp; 
+                //const admin_location = await this.hipClient.send(AppMessagePatterns.hipstore.hsporg)
         }
 
         async unAssignAdminUser(data:UnAssignAdminUserDTO){ 

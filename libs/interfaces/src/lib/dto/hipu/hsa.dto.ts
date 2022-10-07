@@ -4,7 +4,10 @@ export class FindOneHSPDTO{
     @IsNotEmpty()
     serviceid?:string
   }
-  
+export class FindAdminUserHSPDTO{
+        @IsNotEmpty()
+        adminuserid:string 
+}
   export class SaveHSPDTO{
       @IsNotEmpty()
       serviceid:string;

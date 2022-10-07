@@ -1,6 +1,6 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { FindOneHSPDTO, SaveHSPDTO, setAdminUseridDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
+import { FindAdminUserHSPDTO, FindOneHSPDTO, SaveHSPDTO, setAdminUseridDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
 import { DataSource, ILike, IsNull, Repository } from 'typeorm';
 import { HSPOrganisation } from '../resource/entities';
 import { HealthServiceProvider } from '../resource/entities/health-service-provider.entity';
@@ -25,6 +25,12 @@ export class ManageHspService implements OnApplicationBootstrap {
          }
          async getAllHSP(){
                      return this.hsp.find()
+         }
+         async findAdminUserHSP(admin:FindAdminUserHSPDTO){
+                   console.log(`Getting HSP for ${admin.adminuserid} `)
+                     return this.hsp.findOneBy({
+                        adminuserid:ILike(`%${admin.adminuserid}%`)
+                     })
          }
 
          async saveHSP(hsp:SaveHSPDTO){
@@ -70,3 +76,4 @@ export class ManageHspService implements OnApplicationBootstrap {
 export class HealthServiceProviderType extends  HealthServiceProvider{
 
 }
+

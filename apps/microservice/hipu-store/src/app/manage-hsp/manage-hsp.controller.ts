@@ -1,6 +1,6 @@
 import { Controller, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { AppMessagePatterns, AppMessagePatternsTypes, DataInterface, FindOneHSPDTO, SaveHSPDTO, setAdminUseridDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
+import { AppMessagePatterns, AppMessagePatternsTypes, DataInterface, FindAdminUserHSPDTO, FindOneHSPDTO, SaveHSPDTO, setAdminUseridDTO, UnAssignAdminUserDTO } from '@openhmis-api/interfaces';
 import { ManageHspService } from './manage-hsp.service';
 const HSP_PATTERNS=  AppMessagePatterns.hipstore.hsp
 const HSP_PATTERNS_TYPE=  AppMessagePatternsTypes.hipstore.hsp
@@ -26,6 +26,13 @@ export class ManageHspController {
         const request = payload.data
         return this.manageHspService.findOneHSP(request)
   }
+  @MessagePattern(HSP_PATTERNS.findAdminuserHSP)
+  async findAdminuserHSP(@Payload() payload:DataInterface<FindAdminUserHSPDTO> ){
+        const request = payload.data
+        return this.manageHspService.findAdminUserHSP(request)
+  }
+
+
   @UsePipes(new ValidationPipe({transform:true}))
   @MessagePattern(HSP_PATTERNS.saveHSP)
   async saveHSP(@Payload() payload:DataInterface<SaveHSPDTO>){

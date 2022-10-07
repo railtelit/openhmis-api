@@ -29,6 +29,7 @@ export const AppMessagePatterns={
             // setProfilePic:'users.setProfilePic'
         },
         hsp:{
+            findAdminuserHSP:'hsp.findAdminuserHSP',
             getAllHSP:'hsp.findAll',
             saveHSP:'hsp.save',
             findOneHSP:'hsp.findOne',
