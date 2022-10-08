@@ -1,4 +1,5 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Param, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { CreateHSPLocationDTO, RemoveHSPLocationDTO } from '@openhmis-api/interfaces';
 import { lastValueFrom } from 'rxjs';
 import { User } from '../decorators/user.decorator';
 import { AdminRoleService } from './admin-role.service';
@@ -23,6 +24,31 @@ export class AdminRoleController {
   async getAllHSPOrgs(@User('preferred_username') userid){
        const hsp =  await  lastValueFrom(this.adminRoleService.getAdminHSP(userid));
        return this.adminRoleService.findAllOrg({serviceid:hsp.serviceid})
+  }
+  @Get('locations')
+  async getAllHSPLocations(@User('preferred_username') userid){
+       const hsp =  await  lastValueFrom(this.adminRoleService.getAdminHSP(userid));
+       return this.adminRoleService.getAllHSPLocations({serviceid:hsp.serviceid})
+  }
+
+  @Post('locations')
+  @UsePipes(new ValidationPipe({transform:true}))
+  async createHSPLocation(@Body()  create:CreateHSPLocationDTO ,
+           @User('preferred_username')  adminuserid:string ){
+
+         const org = await lastValueFrom(this.adminRoleService.findOneOrg(create.org.id)); 
+         if(!org?.id){
+            throw new BadRequestException(`Invalid Organisation ${create.org.id}`);
+         }
+         if( String(org?.hsp?.adminuserid).toUpperCase() !==  adminuserid.toUpperCase() ){
+            throw new ForbiddenException(`User Not Belongs to Service Id : ${org?.hsp?.adminuserid}`)
+         }
+         return this.adminRoleService.createHSPLocation(create)
+  }
+
+  @Delete('locations/:id')
+  async removeHSPLocation( @Param('id') id:number ){
+        return this.adminRoleService.removeHSPLocation(Number(id)  ) 
   }
 
 }

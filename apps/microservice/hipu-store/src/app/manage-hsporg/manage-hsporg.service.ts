@@ -1,7 +1,7 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateHSPLocationDTO, CreateHSPOrgDTO, GetAllHSPOrgDTO, GetHSPLocationsDTO, RemoveHSPLocationDTO, SearchHSPLocationsDTO, UpdateHSPLocationDTO, UpdateHSPLocationStatusDTO } from '@openhmis-api/interfaces';
+import { CreateHSPLocationDTO, CreateHSPOrgDTO, FindOneHSPOrgDTO, GetAllHSPOrgDTO, GetHSPLocationsDTO, RemoveHSPLocationDTO, SearchHSPLocationsDTO, UpdateHSPLocationDTO, UpdateHSPLocationStatusDTO } from '@openhmis-api/interfaces';
 import { ILike, Repository } from 'typeorm';
 import { HSPLocation, HSPOrganisation } from '../resource/entities';
 
@@ -18,6 +18,16 @@ export class ManageHspOrgService implements OnApplicationBootstrap {
     async getAllHSPOrgs(find:GetAllHSPOrgDTO){
         return this.orgrepo.findBy({hsp:{serviceid:find.serviceid}})
     }
+    async findOneHSPOrg(find:FindOneHSPOrgDTO){
+            return this.orgrepo.findOne(
+                { where: {id:find.id},
+                        relations:{hsp:true}
+                },                
+                )
+    }
+
+    
+
     async createHSPOrg(createRequest:CreateHSPOrgDTO){ 
         const orgExists = await this.orgrepo.findOne(
             {

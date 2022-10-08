@@ -34,6 +34,12 @@ export class SearchHSPLocationsDTO{
         @IsNotEmpty()
         serviceid:string 
 }
+export class FindOneHSPOrgDTO{
+        @IsNotEmpty()
+        @IsNumber()
+        id:number
+}
+
 
 export class CreateHSPLocationDTO{
         @IsNotEmpty()

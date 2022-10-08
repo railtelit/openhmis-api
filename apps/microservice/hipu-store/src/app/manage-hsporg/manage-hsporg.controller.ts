@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { AppMessagePatterns, CreateHSPLocationDTO, CreateHSPOrgDTO, DataInterface, GetAllHSPOrgDTO, GetHSPLocationsDTO, RemoveHSPLocationDTO, SearchHSPLocationsDTO, UpdateHSPLocationDTO, UpdateHSPLocationStatusDTO } from '@openhmis-api/interfaces';
+import { AppMessagePatterns, CreateHSPLocationDTO, CreateHSPOrgDTO, DataInterface, FindOneHSPOrgDTO, GetAllHSPOrgDTO, GetHSPLocationsDTO, RemoveHSPLocationDTO, SearchHSPLocationsDTO, UpdateHSPLocationDTO, UpdateHSPLocationStatusDTO } from '@openhmis-api/interfaces';
 import { ManageHspOrgService } from './manage-hsporg.service';
 
 @Controller()
@@ -17,6 +17,10 @@ export class ManageHspOrgController {
   async createHSPOrg(@Payload() {data}:DataInterface<CreateHSPOrgDTO>){
        return this.orgService.createHSPOrg(data)
   }
+  @MessagePattern(AppMessagePatterns.hipstore.hsporg.findOneHSPOrg)
+  async findOneHSPOrg(@Payload() {data}:DataInterface<FindOneHSPOrgDTO>){
+       return this.orgService.findOneHSPOrg(data)
+  }
 
 
   @MessagePattern(AppMessagePatterns.hipstore.hsporg.getHSPLocations)
@@ -28,7 +32,6 @@ export class ManageHspOrgController {
   async searchHSPLocations(@Payload() {data}:DataInterface<SearchHSPLocationsDTO>){      
       return this.orgService.searchHSPLocations(data)
   } 
- 
 
   @MessagePattern(AppMessagePatterns.hipstore.hsporg.createHSPLocation)
   async createHSPLocation(@Payload() {data}:DataInterface<CreateHSPLocationDTO>){      

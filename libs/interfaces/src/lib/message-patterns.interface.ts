@@ -43,6 +43,7 @@ export const AppMessagePatterns={
             getAllHSPOrg:'org.getAllHSPOrg',
             createHSPOrg:'org.createOrg',
              getHSPLocations:'org.getHSPLocations',
+             findOneHSPOrg:'org.findOneHSPOrg',
              searchHSPLocations:'org.SearchHSPLocations',
              createHSPLocation:'org.createHSPLocation', 
              updateHSPLocationStatus:'org.updateLocationStatus',
