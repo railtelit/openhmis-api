@@ -5,7 +5,7 @@ export class GetHSPWorkersDTO{
         serviceid:string
 
         @IsOptional()        
-        org:{id:number}
+        org?:{id:number}
 }
 
 export class FindOneHSPWorkderDTO{

@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Param, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
-import { CreateHSPLocationDTO, RemoveHSPLocationDTO } from '@openhmis-api/interfaces';
+import { AddHSPWorkderDTO, CreateHSPLocationDTO, RemoveHSPLocationDTO } from '@openhmis-api/interfaces';
 import { lastValueFrom } from 'rxjs';
 import { User } from '../decorators/user.decorator';
 import { AdminRoleService } from './admin-role.service';
@@ -51,6 +51,20 @@ export class AdminRoleController {
         return this.adminRoleService.removeHSPLocation(Number(id)  ) 
   }
 
+  @Post('worker')
+  async postWorker(@User('preferred_username') userid:string , @Body()  pl:AddHSPWorkderDTO  ){
+        return this.adminRoleService.addWorker(pl)
+  }
+
+  @Get('worker')
+  async getHSPWorkers(@User('preferred_username') userid:string ){
+    const hsp =  await  lastValueFrom(this.adminRoleService.getAdminHSP(userid));
+    if(!hsp?.serviceid){
+        throw new BadRequestException(`Service Id Not Found. Invalid Userid `)
+    }
+    //  this.adminRoleService.findAllOrg({serviceid:hsp.serviceid})
+    return this.adminRoleService.getHSPWorkers({serviceid:hsp?.serviceid})
+  }
 }
 
 

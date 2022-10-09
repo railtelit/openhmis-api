@@ -30,7 +30,7 @@ export class ManageHspworkerService {
 
      async addHSPWorker(worker:AddHSPWorkderDTO){
         // Set org/role 
-        const userExists= await this.findOneHSPWorkder({userid:worker.userid}); 
+        const userExists= await this.userrepo.findOneBy({userid:worker.userid}); 
         if(userExists){
             throw new RpcException(`User Exists ${worker.userid}`);
         }
@@ -39,9 +39,10 @@ export class ManageHspworkerService {
             throw new RpcException(`Invalid Org : ${worker.org.id}`)
         }
         const newWorkder = this.userrepo.create(worker); 
-        const workerSaved = await  this.userrepo.save(worker);
+        const workerSaved = await  this.userrepo.save(newWorkder);
         if(worker.primaryrole){
                const role =  this.rolerepo.create({user:workerSaved,
+                 role:worker.primaryrole,
                  location:worker.location});
                 await this.rolerepo.save(role)
         }

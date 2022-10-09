@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { HSPOrganisation } from "./hsp-organization.entity";
 import { HSPUserRole } from "./hsp-userroles.entity";
 
@@ -23,6 +23,6 @@ export class HSPLocation{
         @Column({default:'active'})
         status:string   
         
-        @ManyToMany(()=>HSPUserRole,(r)=>r.location)
+        @OneToMany(()=>HSPUserRole,(r)=>r.location)
         userroles:HSPUserRole[]
 }

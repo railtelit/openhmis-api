@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ClientConfig } from '@openhmis-api/config';
-import { AppMessagePatterns, CreateHSPLocationDTO, DataInterface, FindAdminUserHSPDTO, GetAllHSPOrgDTO, GetHSPLocationsDTO, RemoveHSPLocationDTO } from '@openhmis-api/interfaces';
+import { AddHSPWorkderDTO, AppMessagePatterns, CreateHSPLocationDTO, DataInterface, FindAdminUserHSPDTO, GetAllHSPOrgDTO, GetHSPLocationsDTO, GetHSPWorkersDTO, RemoveHSPLocationDTO } from '@openhmis-api/interfaces';
 
 @Injectable()
 export class AdminRoleService {
@@ -49,6 +49,19 @@ export class AdminRoleService {
               return this.getHipResponse<RemoveHSPLocationDTO>(
                      AppMessagePatterns.hipstore.hsporg.removeHSPLocation,
                      {data:{id,remarks:''},headers:{}}
+              )
+     }
+
+     getHSPWorkers(data:GetHSPWorkersDTO){
+              return this.getHipResponse<GetHSPWorkersDTO>(
+                             AppMessagePatterns.hipstore.users.getHSPWorkers,
+                             {data,headers:{}}
+              )
+     }
+     addWorker(data:AddHSPWorkderDTO){
+              return this.getHipResponse<AddHSPWorkderDTO>(
+                     AppMessagePatterns.hipstore.users.addHSPWorker,
+                     {data,headers:{}}
               )
      }
 }

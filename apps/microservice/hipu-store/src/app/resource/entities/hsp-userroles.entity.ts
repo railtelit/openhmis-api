@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { HSPLocation } from "./hsp-location.entity"
 import { HSPUser } from "./hspusers.entity"
 
@@ -11,11 +11,9 @@ export class HSPUserRole{
         @Column()
         role:string; 
         
-        @ManyToMany(()=>HSPUser,(user)=>user.userroles)
-        @JoinTable()
-        user:HSPUser 
+        @ManyToOne(()=>HSPUser,(user)=>user.userroles,)        
+        user:HSPUser
 
-        @ManyToMany(()=>HSPLocation,(loc)=>loc.userroles)
-        @JoinTable()
+        @ManyToOne(()=>HSPLocation,(loc)=>loc.userroles)        
         location:HSPLocation
 }
