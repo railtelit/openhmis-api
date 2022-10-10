@@ -17,7 +17,7 @@ export class ManageHspworkerService {
      async getHSPWorkers(query:GetHSPWorkersDTO){
          const {serviceid}=query
           const list = await this.userrepo.find({
-                relations:{org:{hsp:true},},
+                relations:{org:{hsp:true}, userroles:{location:true} },
                 where:{
                     org:{hsp:{serviceid}}
                 }
@@ -59,6 +59,7 @@ export class ManageHspworkerService {
                         where:{userid:role.userid},
                         relations:{userroles:true}
                     });
+            console.log(worker.userroles,role)
             const roleExists = worker.userroles.find(r=>r.role===role.role); 
             if(roleExists){
                  return roleExists

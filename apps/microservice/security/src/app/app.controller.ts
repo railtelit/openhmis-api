@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {  } from '@openhmis-api/config';
-import { AppMessagePatterns, DataInterface, SecurityRemoveUserDTO } from '@openhmis-api/interfaces';
+import { AppMessagePatterns, CreateKCUserIfNotExistsDTO, DataInterface, FindOneKCUserDTO, RemoveKCUserRoleDTO, SecurityRemoveUserDTO } from '@openhmis-api/interfaces';
 
 import { AppService } from './app.service';
 import { UsermanageService } from './usermanage/usermanage.service';
@@ -34,4 +34,20 @@ export class AppController {
       return this.userManageService.removeUser(payload.data)
   }
   
+  @MessagePattern(AppMessagePatterns.security.users.findOneKCUser)
+  async finOneKCUser(query:DataInterface<FindOneKCUserDTO>){
+       return  this.userManageService.findOneKeycloakUser(query.data)
+  }
+
+  @MessagePattern(AppMessagePatterns.security.users.createKCUserIfNotExists)
+  async createKcUserIfNotExists(create:DataInterface<CreateKCUserIfNotExistsDTO>){
+       return  this.userManageService.createUserIfNotExists(create.data)
+  }
+  @MessagePattern(AppMessagePatterns.security.users.removeKCUserRole)
+  async removeKcUserClientRole(pr: DataInterface<RemoveKCUserRoleDTO>){
+       return  this.userManageService.removeUserRole(pr.data)
+  }
+
+  
+
 }

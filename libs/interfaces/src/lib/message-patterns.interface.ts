@@ -10,9 +10,12 @@ export const AppMessagePatterns={
     security:{
         users:{
             findAll:'realm.query.allusers',
+            getKCUserClientRoles:'realm.query.getKCUserRoles',
             createAdminUser:'realm.usermanage.createadminuser',
-            createNormalUser:'realm.usermanage.createnormaluser',
-            removeUser:'realm.usermanage.removeUser'
+            createKCUserIfNotExists:'realm.usermanage.createUserifNotExists',
+            removeUser:'realm.usermanage.removeUser',
+            findOneKCUser:'realm.usermanage.findOneUser',
+            removeKCUserRole:'realm.usermanage.removeRole'
         }
     },
     hipstore:{

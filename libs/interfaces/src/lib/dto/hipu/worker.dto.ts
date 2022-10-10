@@ -54,7 +54,7 @@ export class AssignHSPWorkerRoleDTO{
 }
 export class UnAssignHSPWorkerRoleDTO{
         @IsNotEmpty()
-        userid:string ; 
+        userid:number ; 
         
         @IsNotEmpty()
         roleid:number 

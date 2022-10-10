@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Param, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AddHSPWorkderDTO, CreateHSPLocationDTO, RemoveHSPLocationDTO } from '@openhmis-api/interfaces';
+import { AddHSPWorkderDTO, AssignHSPWorkerRoleDTO, CreateHSPLocationDTO, RemoveHSPLocationDTO, UnAssignHSPWorkerRoleDTO } from '@openhmis-api/interfaces';
 import { lastValueFrom } from 'rxjs';
 import { User } from '../decorators/user.decorator';
 import { AdminRoleService } from './admin-role.service';
@@ -52,8 +52,10 @@ export class AdminRoleController {
   }
 
   @Post('worker')
-  async postWorker(@User('preferred_username') userid:string , @Body()  pl:AddHSPWorkderDTO  ){
-        return this.adminRoleService.addWorker(pl)
+  async postWorker(  @Body()  pl:AddHSPWorkderDTO  ){
+         const userid = pl.userid+`@rtel`
+         
+        return this.adminRoleService.addWorker({...pl,userid})
   }
 
   @Get('worker')
@@ -64,6 +66,15 @@ export class AdminRoleController {
     }
     //  this.adminRoleService.findAllOrg({serviceid:hsp.serviceid})
     return this.adminRoleService.getHSPWorkers({serviceid:hsp?.serviceid})
+  }
+
+  @Post('worker/unassignrole')
+  async unAssignRole(@Body() pr:UnAssignHSPWorkerRoleDTO){
+         return this.adminRoleService.unAssignHSPWorkerRole(pr)
+  }
+  @Post('worker/assignrole')
+  async assignRole(@Body() pr:AssignHSPWorkerRoleDTO){
+         return this.adminRoleService.assignHSPWorkerRole(pr)
   }
 }
 
