@@ -50,7 +50,12 @@ export class ManageHspworkerService {
      }
 
      async getHSPWorkerRoles(query:GetHSPWorkerRolesDTO){
-         return this.rolerepo.findBy({user:{userid:query.userid}})
+         return this.rolerepo.find({
+                where:{user:{userid:query.userid}},
+                relations:{
+                    user:true,location:true
+                }
+         })
      }
 
      async assignHSPWorkerRole(role:AssignHSPWorkerRoleDTO){

@@ -58,7 +58,7 @@ export const ApplicationConfig={
      PHR_API:{PORT:3801},
      HPR_API:{PORT:3802},
      HIPU_API:{PORT:3803},
-
+     NDHM:{PORT:3500},
      DEFAULT:{
              LISTEN_HOST:`0.0.0.0`,    
              TIMEOUT:4000,
@@ -66,3 +66,17 @@ export const ApplicationConfig={
      }
 }
 
+
+
+export const HIP_STORE_OPTIONS = {
+     host:process.env[EnvironmentNames.clientService.HIPU_STORE.HOST]||ApplicationConfig.DEFAULT.HOST,
+     port:Number(process.env[EnvironmentNames.clientService.HIPU_STORE.PORT])||ApplicationConfig.HIPU_STORE.PORT,
+ } 
+ export const SECURITY_STORE_OPTIONS = {
+     host:process.env[EnvironmentNames.clientService.SECURITY.HOST]||ApplicationConfig.DEFAULT.HOST,
+     port:Number(process.env[EnvironmentNames.clientService.SECURITY.PORT])||ApplicationConfig.SECURITY_SERVICE.PORT,
+ } 
+ export const NDHM_STORE_OPTIONS = {
+     host:process.env[EnvironmentNames.clientService.NDHM.HOST]||ApplicationConfig.DEFAULT.HOST,
+     port:Number(process.env[EnvironmentNames.clientService.NDHM.PORT])||ApplicationConfig.NDHM.PORT,
+ } 

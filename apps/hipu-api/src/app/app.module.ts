@@ -2,20 +2,29 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HelpdeskRoleModule } from './helpdesk-role/helpdesk-role.module';
 import { AdminRoleModule } from './admin-role/admin-role.module';
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { ClientsModule } from '@nestjs/microservices'
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ClientsModule } from '@nestjs/microservices';
 import { clients } from './clients';
-import {} from 'keycloak-connect'
-import { AuthGuard, KeycloakConnectModule, KeycloakConnectOptions, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
+import {} from 'keycloak-connect';
+import {
+  AuthGuard,
+  KeycloakConnectModule,
+  KeycloakConnectOptions,
+  ResourceGuard,
+  RoleGuard,
+} from 'nest-keycloak-connect';
 import { EnvironmentNames } from '@openhmis-api/config';
 import { APP_GUARD } from '@nestjs/core';
+import { HelpdeskRoleModule } from './helpdesk-role/helpdesk-role.module';
+
+import { AbhaService } from './abha/abha.service';
 @Module({
   imports: [
     ClientsModule.register(clients),
-    AdminRoleModule, HelpdeskRoleModule,
-    ConfigModule.forRoot({isGlobal:true}),
+    AdminRoleModule,
+    HelpdeskRoleModule,
+    ConfigModule.forRoot({ isGlobal: true }),
     KeycloakConnectModule.registerAsync({
       useFactory: (configservice: ConfigService) => {
         const options = {
@@ -33,20 +42,20 @@ import { APP_GUARD } from '@nestjs/core';
         } as KeycloakConnectOptions;
         console.log(options);
         return options;
-      },      
+      },
       imports: [ConfigModule],
       inject: [ConfigService],
-    })
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService,
-    {provide:APP_GUARD,useClass:AuthGuard},
-    {provide:APP_GUARD,useClass:RoleGuard},
-    {provide:APP_GUARD,useClass:ResourceGuard},
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_GUARD, useClass: RoleGuard },
+    { provide: APP_GUARD, useClass: ResourceGuard },    
+    AbhaService,
   ],
 })
 export class AppModule {
-    //   HSA ADMIN 
+  //   HSA ADMIN
 }
-
-
