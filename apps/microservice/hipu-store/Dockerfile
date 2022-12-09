@@ -26,4 +26,4 @@ COPY --from=build /usr/src/app/apps/microservice/${appname}/src/app/resource ./r
 COPY ["microservice-store.startup.sh","tsconfig.json" ,"./"]
 
 # CMD [ "pm2-runtime","--no-auto-exit --watch", "start", "main.js" ]
- CMD [ "/bin/sh", "/home/microservice-store.startup.sh"]
+CMD [ "/bin/sh", "/home/microservice-store.startup.sh"]
